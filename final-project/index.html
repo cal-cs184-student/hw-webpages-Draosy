@@ -1,0 +1,110 @@
+<html>
+	<head>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default'></script>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+		<style>
+			h1 {
+				text-align: center;
+			}
+
+            h2 {
+                text-align: center;
+            }
+
+			.container {
+				margin: 0 auto;
+				padding: 60px 20%;
+			}
+
+			figure {
+				text-align: center;
+			}
+
+			img {
+				display: inline-block;
+			}
+
+			body {
+				font-family: 'Inter', sans-serif;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+		<h1>CS184/284A Spring 2026 Final Project Proposal</h1>
+        <h2> Lip Service: Pathtracing Viscous Dielectrics </h2>
+        <br>
+		<div style="text-align: center;"><b>Team Members: </b>
+            <br>
+            Jade Wang, Andrea Dao, Tunmise Akanle, David Smith
+            <br>
+        </div>
+
+        <br>
+        <div style="text-align: center;">
+
+            Link to webpage: <a href="https://github.com/cal-cs184-student/hw-webpages-Draosy/final-project/index.html">https://github.com/cal-cs184-student/hw-webpages-Draosy/final-project/index.html</a>
+
+        </div>
+		<br>
+
+		<h3>Summary:</h3>
+        We will create a pathtracer in C++ to simulate lip glosses on human tissue (potentially building off of Homework 3 if possible). We intend on creating a layered material system and changing parameters such as dielectric roughness (shine) and volumetric thickness/pooling (viscosity) to simulate various kinds of glosses.
+
+		<h3>Problem Description: </h3>
+        The main problem we intend to solve is how we can build a material system with a dielectric coating over an organic base (lip gloss over human lips) where we can dynamically change variables for shine and viscosity in order to simulate different consistencies of lip gloss. For example, a more high viscosity lip gloss would pool inside the crevices of the lips leading to a much smoother layer than the initial lip mesh. Since the gloss is thicker, it’ll create a smooth shell over the lips that will have a coherent reflection, creating a glassy look. Meanwhile, a lower viscosity lip gloss would create a much thinner even coating more similar to the initial lip mesh that will not be as perfectly smooth as the thicker gloss. As a result, this thinner gloss will create a dispersed reflection, giving a more moist/wet look. 
+        <br>
+        <br>
+        In order to tackle the problem discussed above, we need to implement a layered BDRF, or “Clearcoat” model. Specifically for the specular glossy layer that the lip gloss creates, we plan on using the Cook-Torrance microfacet BDRF, and for the normal lip layer, we plan on using BSSRDF (Bidirectional Scattering Surface Reflectance Distribution Function) to calculate the subsurface scattering of light bouncing through the semi-opaque lips. We also need to consider energy conservation, as the light hitting the base lip layer must be reduced by the amount of light reflected in the lip gloss layer. (We will handle lip gloss color tints by multiplying the base layer by the transmittance color calculated using the Beer-Lambert law and then add it to the specular gloss reflection.)
+    <br>
+		<h3>Goals and Deliverables: </h3>
+        Our project aims to answer the question of how we can model light reflecting from various viscosities of lip gloss on human skin. In a similar vein, we aim to tackle how varying dielectric roughness mathematically and visually affects the “shine” of lip gloss when rendering. 
+    <br>
+    <br>
+        For performance metrics, we will primarily focus on using images to show our results. Specifically, we can use a visual matrix to isolate and demonstrate the different results that come from changing dielectric roughness and thickness/viscosity parameters. We could also compare our rendered images to real-life images of lip gloss in similar environmental lighting. 
+    <br>
+    <br>
+    <u> Target Goals: </u>
+    <br>
+    We aim to implement a layered BSDF into our pathtracer with a base layer for skin (lips) and a dielectric layer for the gloss. We will also make sure there are three adjustable parameters: one for dielectric roughness to adjust the shine/glossiness, one for thickness to adjust the viscosity, and one for color/saturation.
+    <br>
+    <br>
+    <u> Reach Goals: </u>
+    <br>
+    Some goals we hope to achieve include adding geometry-driven pooling instead of having uniform thickness for the gloss, which will allow the gloss to settle into cracks/crevices of the lip mesh, adding BSSRDF to the lip tissue to make it look more realistic and skin-like, and adding iridescence to the gloss layer to simulate glitter, which is sometimes found in lip gloss products. Additionally, if we have extra time, we were thinking about simulating a ferromagnetic lip gloss. 
+    <br>
+		<h3>Schedule: </h3>
+        <u>Week 1:</u> <br>Project setup, create codebase (establish if using Homework 3 pathtracer or new pathtracer), find lip scan, integrate environmental lighting
+        <br>
+        <br>
+        <u>Week 2:</u> <br> Implement baseline layered material math, test on sphere before testing on lip mesh
+        <br>
+        <br>
+        <u>Week 3:</u><br> Parameterize variables for lip gloss viscosity and shine, begin test renders
+        <br>
+        <br>
+        <u>Week 4:</u> <br>Finalize renders, experiment with ferromagnetic simulation, complete final write-up and presentation
+    <br>
+		<h3>Resources:</h3>
+		<a href="https://graphics.stanford.edu/papers/bssrdf/bssrdf.pdf">
+            <i>A Practical Model for Subsurface Light Transport </i>(Jensen et al., SIGGRAPH 2001)
+        </a>
+        <br>
+		<br>
+        <a href="https://www.cs.cornell.edu/projects/layered-sg14/layered.pdf">
+            <i>A Comprehensive Framework for Rendering Layered Materials </i>(Wenzel Jakob et al., SIGGRAPH 2014)
+        </a>
+		<br>
+        <br>
+        <a href="https://www.graphics.cornell.edu/~bjw/microfacetbsdf.pdf">
+            <i>Microfacet Models for Refraction through Rough Surfaces </i>(Walter et al., EGSR 2007)
+        </a>
+		<br>
+        <br>
+        <a href="https://mlhonke.github.io/projects/2020-06-15-Ferrofluid-Simulation/">
+            <i>Ferrofluid Simulation </i>(Honke 2020)
+        </a>
+		<br>
+		</div>
+	</body>
+</html>
