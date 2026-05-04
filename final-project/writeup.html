@@ -43,13 +43,11 @@
 		We've already added one heading per part, to make your write-up as navigable when grading. Please fit your write-up within these sections!
 		-->
         <h2>Abstract</h2>
-        Rendering human features requires accurately modeling complex light interactions across multiple biological and sometimes applied layers. This is especially true when trying to render human lips with lip gloss applied on top, as we must accurately simulate how light is reflected and absorbed by not only the glossy top layer, but also its underlying skin. Our project extends the C++ path tracer in Homework 3 to simulate lip gloss by implementing a custom Layered BSDF that blends an approximate BSSRDF to capture the subsurface scattering and coloration of human tissue with a BSDF that simulates the glossy coating. We experimented with various different BSDFs to see which one would simulate our glossy coating the best.
+        Rendering human features requires accurately modeling complex light interactions across multiple biological and sometimes applied layers. This is especially true when trying to render human lips with lip gloss applied on top, as we must accurately simulate how light is reflected and absorbed by not only the glossy top layer, but also its underlying skin. Our project extends the C++ path tracer in Homework 3 to simulate lip gloss by implementing a custom Layered BSDF that blends an approximate BSSRDF to capture the subsurface scattering and coloration of human tissue with a BSDF that simulates the glossy coating. We experimented with various different BSDFs to see which one would simulate our glossy coating the best. We also added parameters to the gloss layer such as Roughness (dictating the shine of the dielectric layer), Thickness (acting as the layer's opacity), Base Color, a Saturation multiplier, and the Index of Refraction (IOR).
         <h2>Technical Approach</h2>
-        <h3>Layered BSDF</h3>
-        We implemented a Layered BSDF which mathematically blends a base layer and a specular gloss layer based on a controllable thickness parameter. We also added parameters to the gloss layer such as Roughness (dictating the shine of the dielectric layer), Thickness (acting as the layer's opacity), Base Color, a Saturation multiplier, and the Index of Refraction (IOR).
-        <h4>Base Layer (BSSRDF)</h4>
+        <h3>Base Layer (BSSRDF)</h3>
         The base layer of the lip model, or the fleshy skin-like layer, was modeled using an Approximate BSSRDF, or Bidirectional Scattering Surface Reflectance Distribution Function. We thought simulating the internal light transport would be too computationally expensive and not worth it since this would be going under a much more important top layer, so we approximated the subsurface scattering effect by using a cosine factor. 
-        <h4>Gloss Layer (Cook-Torrance BSDF)</h4>
+        <h3>Gloss Layer (Cook-Torrance BSDF)</h3>
         For our first iteration of our Layered BSDF, we used the Cook-Torrance Microfacet BSDF for our gloss layer. This basically treats the gloss layer as a bunch of microscopic mirrors or microfacets, which works because we want an extremely glossy surface. The specular reflectance of this layer is given by the formula:
         <br>
         <div style="display: flex; flex-direction: column; align-items: center;">
