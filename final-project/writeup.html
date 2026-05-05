@@ -84,6 +84,22 @@
 				max-width: 420px;
 			}
 
+			.disney-comparison-grid {
+				max-width: 760px;
+			}
+
+			.disney-comparison-grid img {
+				max-width: 340px;
+			}
+
+			.four-up-render-grid {
+				max-width: 1200px;
+			}
+
+			.four-up-render-grid img {
+				max-width: 280px;
+			}
+
 			figcaption {
 				margin-top: 6px;
 				font-size: 0.92em;
@@ -272,7 +288,7 @@
             The following comparisons on the <code>lips2.dae</code> scene demonstrate the impact of the layered BSDF sampling fix:
         </p>
         <div style="display: flex; flex-direction: column; align-items: center;">
-            <table class="screenshot-grid bounded-render-grid">
+            <table class="screenshot-grid bounded-render-grid disney-comparison-grid">
                 <tr>
                     <td>
                         <img src="images/results/lips2_screenshot_5-4_18-57-54.png" />
@@ -307,7 +323,7 @@
             scale 8.0.
         </p>
         <div style="display: flex; flex-direction: column; align-items: center;">
-            <table class="screenshot-grid bounded-render-grid">
+            <table class="screenshot-grid bounded-render-grid four-up-render-grid">
                 <tr>
                     <td>
                         <img src="images/results/rw_layered_base.png" />
@@ -317,8 +333,6 @@
                         <img src="images/results/rw_layered_glossier.png" />
                         <figcaption>More gloss: specular weight 0.55, roughness 0.12.</figcaption>
                     </td>
-                </tr>
-                <tr>
                     <td>
                         <img src="images/results/rw_layered_forward_g.png" />
                         <figcaption>Forward scattering: \(g = 0.55\).</figcaption>
