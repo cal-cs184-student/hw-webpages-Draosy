@@ -84,6 +84,22 @@
 				max-width: 420px;
 			}
 
+			.disney-comparison-grid {
+				max-width: 500px;
+			}
+
+			.disney-comparison-grid img {
+				max-width: 340px;
+			}
+
+			.four-up-render-grid {
+				max-width: 1200px;
+			}
+
+			.four-up-render-grid img {
+				max-width: 280px;
+			}
+
 			figcaption {
 				margin-top: 6px;
 				font-size: 0.92em;
@@ -167,13 +183,7 @@
         </p>
 
         <h3>Volumetric Random-Walk SSS</h3>
-        <figure>
-            <img src="images/volumetric-sss/sss_local.png" />
-            <figcaption>
-                Image from
-                <a class="cite" href="#ref-mjp-sss">Pettineo</a>.
-            </figcaption>
-        </figure>
+
         <p>
             We wanted to compare the rendering output of the BSSRDF approximation to a subsurface scattering implementation based on volumetric light transport.
             This idea was mentioned in Section 4.3.2 of PBRT <a class="cite" href="#ref-pbrt">[PBRT, p. 159]</a> and argued to produce more natural looking results in Chiang et al. <a class="cite" href="#ref-chiang">[Chiang et al.]</a>, although we do not use their reparameterization.
@@ -278,7 +288,7 @@
             The following comparisons on the <code>lips2.dae</code> scene demonstrate the impact of the layered BSDF sampling fix:
         </p>
         <div style="display: flex; flex-direction: column; align-items: center;">
-            <table class="screenshot-grid bounded-render-grid">
+            <table class="screenshot-grid bounded-render-grid disney-comparison-grid">
                 <tr>
                     <td>
                         <img src="images/results/lips2_screenshot_5-4_18-57-54.png" />
@@ -313,7 +323,7 @@
             scale 8.0.
         </p>
         <div style="display: flex; flex-direction: column; align-items: center;">
-            <table class="screenshot-grid bounded-render-grid">
+            <table class="screenshot-grid bounded-render-grid four-up-render-grid">
                 <tr>
                     <td>
                         <img src="images/results/rw_layered_base.png" />
@@ -323,8 +333,6 @@
                         <img src="images/results/rw_layered_glossier.png" />
                         <figcaption>More gloss: specular weight 0.55, roughness 0.12.</figcaption>
                     </td>
-                </tr>
-                <tr>
                     <td>
                         <img src="images/results/rw_layered_forward_g.png" />
                         <figcaption>Forward scattering: \(g = 0.55\).</figcaption>
@@ -360,9 +368,6 @@
         <br>
         <br>
         <span id="ref-schlick">C. Schlick, "An Inexpensive BRDF Model for Physically-Based Rendering," <i>Computer Graphics Forum</i>, vol. 13, no. 3, pp. 233-246, 1994.</span> Online: <a href="https://diglib.eg.org/items/581037f7-1e5c-4859-a107-6dfeeb8f3ccb">https://diglib.eg.org/items/581037f7-1e5c-4859-a107-6dfeeb8f3ccb</a>.
-        <br>
-        <br>
-        <span id="ref-mjp-sss">M. Pettineo, "An Introduction To Real-Time Subsurface Scattering," <i>The Danger Zone</i>, Oct. 6, 2019.</span> Online: <a href="https://therealmjp.github.io/posts/sss-intro/">https://therealmjp.github.io/posts/sss-intro/</a>.
         <br>
         <br>
         <span id="ref-chiang">M. J.-Y. Chiang, P. Kutz, and B. Burley, "Practical and Controllable Subsurface Scattering for Production Path Tracing," <i>SIGGRAPH 2016 Talks</i>, 2016.</span> Online: <a href="https://disneyanimation.com/publications/practical-and-controllable-subsurface-scattering-for-production-path-tracing/">https://disneyanimation.com/publications/practical-and-controllable-subsurface-scattering-for-production-path-tracing/</a>.
