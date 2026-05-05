@@ -310,19 +310,11 @@
         </div>
 
         <h3>Random-Walk Layered Renders</h3>
-        <p>
-            The following random walk renders use the <code>lips2.dae</code> mesh with its
-            material changed to <code>random_walk_layered</code>.
-        </p>
+
         <p class="small">
-            Random-walk layered coefficient sets used below. Baseline: \(\sigma_a=(0.013,0.070,0.145)\),
+            Random walk layered coefficients for baseline: \(\sigma_a=(0.013,0.070,0.145)\),
             \(\sigma_s=(1.09,1.59,1.79)\), \(g=0.0\), IOR 1.3, scale 5.0, surface roughness 0.18,
             specular weight 0.45, derived base-layer weight 0.55, base color (0.82,0.22,0.26), saturation 1.2.
-            More gloss: same except surface roughness 0.12, specular weight 0.55, derived base-layer weight 0.45.
-            Forward scattering: same as baseline except \(g=0.55\). Shorter mean free path: same as baseline except
-            scale 8.0.
-        </p>
-        <p class="small">
             The second row uses the same <code>lips2.dae</code> mesh, camera, and lighting for the three layered BSDFs
             and the standalone <code>ApproximateBSSRDF</code>, all at 640x480, 64 spp, max ray depth 4, and 2 light samples.
         </p>
