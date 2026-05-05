@@ -322,6 +322,10 @@
             Forward scattering: same as baseline except \(g=0.55\). Shorter mean free path: same as baseline except
             scale 8.0.
         </p>
+        <p class="small">
+            The second row uses the same <code>lips2.dae</code> mesh, camera, and lighting for the three layered BSDFs
+            and the standalone <code>ApproximateBSSRDF</code>, all at 640x480, 64 spp, max ray depth 4, and 2 light samples.
+        </p>
         <div style="display: flex; flex-direction: column; align-items: center;">
             <table class="screenshot-grid bounded-render-grid four-up-render-grid">
                 <tr>
@@ -340,6 +344,24 @@
                     <td>
                         <img src="images/results/rw_layered_scale8.png" />
                         <figcaption>Shorter mean free path: scale 8.0.</figcaption>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <img src="images/results/lips2_cook_torrance_layered_depth4_s64_l2.png" />
+                        <figcaption>Cook-Torrance layered BSDF.</figcaption>
+                    </td>
+                    <td>
+                        <img src="images/results/lips2_fast_layered_depth4_s64_l2.png" />
+                        <figcaption>Fast layered BSDF.</figcaption>
+                    </td>
+                    <td>
+                        <img src="images/results/lips2_disney_layered_depth4_s64_l2.png" />
+                        <figcaption>Disney layered BSDF.</figcaption>
+                    </td>
+                    <td>
+                        <img src="images/results/lips2_approximate_bssrdf_depth4_s64_l2.png" />
+                        <figcaption>Approximate BSSRDF.</figcaption>
                     </td>
                 </tr>
             </table>
