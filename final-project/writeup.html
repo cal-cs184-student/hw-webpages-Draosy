@@ -75,6 +75,15 @@
 				width: 100%;
 			}
 
+			.bounded-render-grid {
+				max-width: 900px;
+				margin: 0 auto;
+			}
+
+			.bounded-render-grid img {
+				max-width: 420px;
+			}
+
 			figcaption {
 				margin-top: 6px;
 				font-size: 0.92em;
@@ -107,7 +116,7 @@
 		We've already added one heading per part, to make your write-up as navigable when grading. Please fit your write-up within these sections!
 		-->
         <h2>Abstract</h2>
-        Rendering human features requires accurately modeling complex light interactions across multiple biological and sometimes applied layers. This is especially true when trying to render human lips with lip gloss applied on top, as we must accurately simulate how light is reflected and absorbed by not only the glossy top layer, but also its underlying skin. Our project extends the C++ path tracer in Homework 3 to simulate lip gloss by implementing a custom Layered BSDF that blends an approximate BSSRDF to capture the subsurface scattering and coloration of human tissue with a BSDF that simulates the glossy coating. We experimented with various different BSDFs to see which one would simulate our glossy coating the best. We also added parameters to the gloss layer such as Roughness (dictating the shine of the dielectric layer), Thickness (acting as the layer's opacity), Base Color, a Saturation multiplier, and the Index of Refraction (IOR).
+        Rendering human features requires accurately modeling complex light interactions across multiple biological and sometimes applied layers. This is especially true when trying to render human lips with lip gloss applied on top, as we must accurately simulate how light is reflected and absorbed by not only the glossy top layer, but also its underlying skin. Our project extends the C++ path tracer in Homework 3 to simulate lip gloss by implementing a custom Layered BSDF that blends an approximate BSSRDF to capture the subsurface scattering and coloration of human tissue with a BSDF that simulates the glossy coating. We experimented with various different BSDFs to see which one would simulate our glossy coating the best. We also added parameters to the gloss layer such as Roughness (dictating the shine of the dielectric layer), Thickness (acting as the layer's opacity), Base Color, a Saturation multiplier, and the Index of Refraction (IOR). We then extend the project to include a fully volumetric random walk subsurface scattering model to compare with our layered approximations.
         <h2>Technical Approach</h2>
         <h3>Base Layer (BSSRDF)</h3>
         The base layer of the lip model, or the fleshy skin-like layer, was modeled using an Approximate BSSRDF, or Bidirectional Scattering Surface Reflectance Distribution Function. We thought simulating the internal light transport would be too computationally expensive and not worth it since this would be going under a much more important top layer, so we approximated the subsurface scattering effect by using a cosine factor. 
@@ -348,7 +357,7 @@ if (!same_subsurface_volume(volume_primitive, boundary_isect.primitive)) {
             The following comparisons on the <code>lips2.dae</code> scene demonstrate the impact of the layered BSDF sampling fix:
         </p>
         <div style="display: flex; flex-direction: column; align-items: center;">
-            <table class="screenshot-grid">
+            <table class="screenshot-grid bounded-render-grid">
                 <tr>
                     <td>
                         <img src="images/results/lips2_screenshot_5-4_18-57-54.png" />
@@ -386,7 +395,7 @@ if (!same_subsurface_volume(volume_primitive, boundary_isect.primitive)) {
             scale 8.0.
         </p>
         <div style="display: flex; flex-direction: column; align-items: center;">
-            <table class="screenshot-grid">
+            <table class="screenshot-grid bounded-render-grid">
                 <tr>
                     <td>
                         <img src="images/results/rw_layered_base.png" />
