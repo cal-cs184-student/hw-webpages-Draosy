@@ -69,7 +69,8 @@
         <br>
 
         <h2>Results</h2>
-        Here is a side-by-side comparison of the different BSDFs we tested for our gloss layer. 
+        Here is a side-by-side comparison of the different BSDFs we tested for our gloss layer: 
+        <br>
         <br>
         <div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 80%; text-align: center; border-collapse: collapse;">
@@ -85,6 +86,28 @@
                 <td style="text-align: center;">
 				  <img src="images/disneyfinal.png" width="300px"/>
 				  <figcaption>Disney BSDF</figcaption>
+				</td>
+			</tr>
+			</table>
+		</div>
+        <br>
+        Here is a side-by-side comparison of the Disney BSDF at different roughness and thickness levels:
+        <br>
+        <br>
+        <div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 80%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="images/default-params.png" width="300px"/>
+				  <figcaption>Default Parameters: balanced flesh color and controlled roughness and gloss thickness.</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="images/glossy-params.png" width="300px"/>
+				  <figcaption>High Gloss Parameters: lower roughness and higher gloss thickness for a wet finish</figcaption>
+				</td>
+                <td style="text-align: center;">
+				  <img src="images/matte-params.png" width="300px"/>
+				  <figcaption>Matte Parameters: higher roughness and lower gloss thickness for a dry finish</figcaption>
 				</td>
 			</tr>
 			</table>
@@ -105,44 +128,6 @@
         <br>
         Robert L. Cook and Kenneth E. Torrance, "A Reflectance Model for Computer Graphics," 1982. <a href="https://dl.acm.org/doi/10.1145/357290.357293">doi:10.1145/357290.357293</a>
         
-
-
-		<!---
-    <div style="display: flex; flex-direction: column; align-items: center;">
-			<table style="width: 100%; text-align: center; border-collapse: collapse;">
-			  <tr>
-				<td style="text-align: center;">
-				  <img src="images/sphere_original.png" width="400px"/>
-				  <figcaption>Original BRDF with Lambertian material (sphere)</figcaption>
-				</td>
-				<td style="text-align: center;">
-				  <img src="images/sphere_bssrdf.png" width="400px"/>
-				  <figcaption>BSSRDF layer (sphere)</figcaption>
-				</td>
-			</tr>
-			  <tr>
-				<td style="text-align: center;">
-				  <img src="images/sphere_layered_full.png" width="400px"/>
-				  <figcaption>First Iteration of Layered BRDF (sphere)</figcaption>
-				</td>
-				<td style="text-align: center;">
-				  <img src="images/sphere_layered_full2.png" width="400px"/>
-				  <figcaption>Second Iteration of Layered BRDF (sphere)</figcaption>
-				</td>
-				</tr>
-			  <tr>
-				<td style="text-align: center;">
-				  <img src="images/sphere_layered_full3.png" width="400px"/>
-				  <figcaption>Third Iteration of Layered BRDF (sphere)</figcaption>
-				</td>
-				<td style="text-align: center;">
-				  <img src="images/sphere_layered_full4.png" width="400px"/>
-				  <figcaption>Fourth Iteration of Layered BRDF (sphere)</figcaption>
-				</td>
-			  </tr>
-			</table>
-		</div>
-	-->
 	</div>
 	</body>
 </html>
