@@ -135,7 +135,7 @@
         <br>
         We calculated <code>h</code> as the normalized half-vector and passed it into each part of the Cook-Torrance BSDF. The first part is <code>D</code> or the Normal Distribution Function, which contributes to the size, shape, and sharpness of the glossy highlights and is connected to our <code>roughness</code> parameter. We chose to use GGX Distribution (between Beckmann, Phong, and GGX, the paper seemed to recommend the latter) since it has stronger tails and better shadowing.  For <code>F</code>, or Fresnel Reflectance, which uses the <code>ior</code> or index of refraction parameter, and is in control of the reflection on the edges of the lips, we used Schlick's approximation to interpolate the <code>ior</code> at grazing angles. Finally, <code>G</code> or Geometry Shadowing, which darkens the edges of the lips to prevent unnatural glowing, used the the separable product of the shadowing and masking components <code>G1</code> for both <code>wi</code> and <code>wo</code>.
         <h3> Experimenting with Other BSDFs</h3>
-		Since Cook-Torrance BSDF is expensive, we tested other BSDFs as well. Normalized Blinn-Phong BSDF using the Kelemen geometry approximation was much better in terms of speed since it doesn’t include expensive square roots and complex trigonometric divisions. It simplifies the geometry term G and the denominator of the standard microfacet model into a single, highly efficient calculation. Also, unlike the old-school OpenGL Blinn-Phong model, this normalized version is physically based and conserves energy, meaning it fits perfectly into a path tracer. However, after trying this we found it was worse in terms of gloss and granier. 
+		Since Cook-Torrance BSDF is expensive, we tested other BSDFs as well. Normalized Blinn-Phong BSDF using the Kelemen geometry approximation was much better in terms of speed since it doesn’t include expensive square roots and complex trigonometric divisions. It simplifies the geometry term G and the denominator of the standard microfacet model into a single, highly efficient calculation. Also, unlike the old-school OpenGL Blinn-Phong model, this normalized version is physically based and conserves energy, meaning it fits perfectly into a path tracer. However, after trying this we found it was worse in terms of gloss and appeared granier. 
 		<br>
         <br>
 		Another BSDF we tried was the Disney Principled Subsurface Approximation to get a more fleshy and translucent lip look combined with a wet clearcoat. We modified the ss_factor equation so that putting a light behind the lips will have the edges appear to softly glow rather than reducing to dark shadows. By multiplying the flesh contribution by 1-f, the specular highlights stand out much sharper against the diffuse color, making it look more realistically wet. 
@@ -456,7 +456,7 @@ if (!same_subsurface_volume(volume_primitive, boundary_isect.primitive)) {
         
         <h2>Team Contributions</h2>
         <ul>
-            <li>Adrea Dao:</li>
+            <li>Andrea Dao: Experimented with implementing different BSDFs (Normalized Blinn-Phong BSDF, Disney Principled Subsurface Approximation), analyzing their tradeoffs (speed vs. quality) </li>
             <li>Jade Wang:</li>
             <li>Tunmise Akanle:</li>
             <li>David Smith: Wrote the biasing fix. Implemented the volumetric random-walk model. Extended the GUI to allow for live parameter adjustments and material switching.</li>
