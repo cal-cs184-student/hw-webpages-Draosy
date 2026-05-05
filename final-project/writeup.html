@@ -116,7 +116,7 @@
 		We've already added one heading per part, to make your write-up as navigable when grading. Please fit your write-up within these sections!
 		-->
         <h2>Abstract</h2>
-        Rendering human features requires accurately modeling complex light interactions across multiple biological and sometimes applied layers. This is especially true when trying to render human lips with lip gloss applied on top, as we must accurately simulate how light is reflected and absorbed by not only the glossy top layer, but also its underlying skin. Our project extends the C++ path tracer in Homework 3 to simulate lip gloss by implementing a custom Layered BSDF that blends an approximate BSSRDF to capture the subsurface scattering and coloration of human tissue with a BSDF that simulates the glossy coating. We experimented with various different BSDFs to see which one would simulate our glossy coating the best. We also added parameters to the gloss layer such as Roughness (dictating the shine of the dielectric layer), Thickness (acting as the layer's opacity), Base Color, a Saturation multiplier, and the Index of Refraction (IOR). We then extend the project to include a fully volumetric random walk subsurface scattering model to compare with our layered approximations.
+        Rendering human features requires accurately modeling complex light interactions across multiple biological and sometimes applied layers. This is especially true when trying to render human lips with lip gloss applied on top, as we must accurately simulate how light is reflected and absorbed by not only the glossy top layer, but also its underlying skin. Our project extends the C++ path tracer in Homework 3 to simulate lip gloss by implementing a custom Layered BSDF that blends an approximate BSSRDF to capture the subsurface scattering and coloration of human tissue with a BSDF that simulates the glossy coating. We experimented with various different BSDFs to see which one would simulate our glossy coating the best. We also added parameters to the gloss layer such as Roughness (dictating the shine of the dielectric layer), Thickness (acting as the layer's opacity), Base Color, a Saturation multiplier, and the Index of Refraction (IOR). We then extended the project to include a fully volumetric random walk subsurface scattering model to compare with our layered approximations.
         <h2>Technical Approach</h2>
         <h3>Base Layer (BSSRDF)</h3>
         The base layer of the lip model, or the fleshy skin-like layer, was modeled using an Approximate BSSRDF, or Bidirectional Scattering Surface Reflectance Distribution Function. We thought simulating the internal light transport would be too computationally expensive and not worth it since this would be going under a much more important top layer, so we approximated the subsurface scattering effect by using a cosine factor. 
@@ -189,7 +189,7 @@ double gloss_pdf = disney_gloss_pdf(wo, *wi, roughness);
 *pdf = base_weight * base_pdf + gloss_weight * gloss_pdf;
 return *pdf &gt; 1e-10 ? f(wo, *wi) : Vector3D(0, 0, 0);</code></pre>
         <p>
-            We also added a numerical stability check for added safety.
+            We also added a numerical stability check.
         </p>
 
         <h3>Volumetric Random-Walk SSS</h3>
@@ -228,7 +228,7 @@ if (scatter_distance &lt; boundary_distance) {
   continue;
 }</code></pre>
         <p>
-            The random walk does not add radiance at every interior scatter. An interior scattering only updates the path
+            The random walk does not add radiance at every interior scatter. Interior scattering only updates the path
             throughput and samples a new direction. The light estimate occurs when the walk exits the volume.
             If the ray never internally scattered, the code treats the event as a ballistic transmission and continues the
             camera path through the object. Otherwise, if the ray did scatter internally, the light estimate becomes a surface sample of scene lights from that exit point.
@@ -297,7 +297,7 @@ if (!same_subsurface_volume(volume_primitive, boundary_isect.primitive)) {
             We compute a base tint
             <code>c_b=clamp(base_color * saturation)</code> that is multiplied with the exit contribution after the random walk.
             The <code>base_color</code> and <code>saturation</code> are parameters that can be set by the user.
-            This gives us a way of giving a shade to our lip gloss choices.
+            This allows us to give a shade to our lip gloss choices.
         </p>
         <p>
             The color coming from the random walk and underlying skin is determined by our chromatic absorption coefficient \(\sigma_a\). It has red,
@@ -456,7 +456,7 @@ if (!same_subsurface_volume(volume_primitive, boundary_isect.primitive)) {
         
         <h2>Team Contributions</h2>
         <ul>
-            <li>Adrea Dao:</li>
+            <li>Andrea Dao:</li>
             <li>Jade Wang:</li>
             <li>Tunmise Akanle:</li>
             <li>David Smith: Wrote the biasing fix. Implemented the volumetric random-walk model. Extended the GUI to allow for live parameter adjustments and material switching.</li>
