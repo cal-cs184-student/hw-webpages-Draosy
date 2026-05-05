@@ -68,6 +68,28 @@
         This part of the project used ideas from the CS184 mesh lecture, <code>08-meshes.pptx</code>. Our representation is not a general subdivision surface; it is a direct procedural triangle mesh. That was a deliberate subset of the mesh techniques covered in class because the lip shape needed to be easy to tune. Parameters such as the Cupid's bow dip, vertical folds, central lower-lip bulge, corner recession, and crease depth gave us artistic control while still producing ordinary indexed triangle geometry that the existing BVH and path tracer could render.
         <br>
 
+        <h2>Results</h2>
+        Here is a side-by-side comparison of the different BSDFs we tested for our gloss layer. 
+        <br>
+        <div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 80%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="images/cooktorrancefinal.png" width="300px"/>
+				  <figcaption>Cook-Torrance BSDF</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="images/phongfinal.png" width="300px"/>
+				  <figcaption>Blinn-Phong BSDF</figcaption>
+				</td>
+                <td style="text-align: center;">
+				  <img src="images/disneyfinal.png" width="300px"/>
+				  <figcaption>Disney BSDF</figcaption>
+				</td>
+			</tr>
+			</table>
+		</div>
+
         <h2>References</h2>
         CS184 lecture slides: 08-meshes.pptx, 9-11-ray-tracing+acceleration.pptx, 12- integration.pdf, 13-global-illumination-path-tracing.pdf, 14-material.pdf, and 15- Color-and-Perception.pdf. 
         <br>
