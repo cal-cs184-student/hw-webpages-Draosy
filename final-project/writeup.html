@@ -165,32 +165,6 @@
               p_{mix}(\omega_i) = (1-t)p_{base}(\omega_i) + t p_{gloss}(\omega_i).
             \]
         </p>
-        <p>Old code: sample one branch, but return only that branch's PDF.</p>
-        <pre><code>// src/pathtracer/bsdf.cpp, DisneyLayeredBSDF::sample_f
-
-if (random_uniform() &lt; gloss_weight) {
-  sample_disney_gloss_lobe(wo, roughness, wi, pdf);
-} else {
-  base_layer-&gt;sample_f(wo, wi, pdf);
-}
-return f(wo, *wi);  // f is still the full base + gloss BSDF</code></pre>
-        <p>Fixed code: sample one branch, then report the full mixture PDF.</p>
-        <pre><code>double gloss_weight = clamp(thickness, 0.0, 1.0);
-double base_weight = 1.0 - gloss_weight;
-
-if (random_uniform() &lt; gloss_weight) {
-  sample_disney_gloss_lobe(wo, roughness, wi, &amp;sampled_gloss_pdf);
-} else {
-  base_layer-&gt;sample_f(wo, wi, &amp;base_pdf);
-}
-
-double base_pdf = cosine_hemisphere_pdf(*wi);
-double gloss_pdf = disney_gloss_pdf(wo, *wi, roughness);
-*pdf = base_weight * base_pdf + gloss_weight * gloss_pdf;
-return *pdf &gt; 1e-10 ? f(wo, *wi) : Vector3D(0, 0, 0);</code></pre>
-        <p>
-            We also added a numerical stability check.
-        </p>
 
         <h3>Volumetric Random-Walk SSS</h3>
         <figure>
@@ -220,53 +194,14 @@ return *pdf &gt; 1e-10 ? f(wo, *wi) : Vector3D(0, 0, 0);</code></pre>
             <a class="cite" href="#ref-pbrt">[PBRT, pp. 711-713]</a>, <a class="cite" href="#ref-henyey-greenstein">[Henyey and Greenstein]</a>.
             The maximum number of internal reflections is capped at 16 and is not related to <code>max_ray_depth</code>.
         </p>
-        <pre><code>// src/pathtracer/pathtracer.cpp
-if (scatter_distance &lt; boundary_distance) {
-  throughput *= exp_vector(-sigma_a * scatter_distance) * albedo;
-  position += direction * scatter_distance;
-  direction = sample_henyey_greenstein(direction, bsdf-&gt;get_anisotropy_g());
-  continue;
-}</code></pre>
         <p>
-            The random walk does not add radiance at every interior scatter. Interior scattering only updates the path
-            throughput and samples a new direction. The light estimate occurs when the walk exits the volume.
+            Interior scattering only updates the path
+            throughput and samples a new direction. The light estimate itself only occurs when the walk exits the volume.
             If the ray never internally scattered, the code treats the event as a ballistic transmission and continues the
             camera path through the object. Otherwise, if the ray did scatter internally, the light estimate becomes a surface sample of scene lights from that exit point.
             The integrator tests for visibility with a shadow ray, applies Fresnel transmission through the boundary, then adds the surviving contribution back to the camera path
             <a class="cite" href="#ref-pbrt">[PBRT, pp. 821-824]</a>.
         </p>
-        <pre><code>// src/pathtracer/pathtracer.cpp
-if (!scattered) {
-  Ray ballistic_ray(exit_p + direction * EPS_F, direction);
-  ballistic_ray.depth = r.depth &gt; 0 ? r.depth - 1 : 0;
-  L_out += throughput * base_tint * trace_continuation(ballistic_ray);
-  return L_out;
-}</code></pre>
-        <pre><code>// src/pathtracer/pathtracer.cpp
-Vector3D exit_origin = exit_p + exit_normal * EPS_F;
-Vector3D exit_direct;
-for (SceneLight* current_light : scene-&gt;lights) {
-  Vector3D light_direction;
-  double distance_to_light;
-  double light_pdf;
-  Vector3D light_radiance =
-      current_light-&gt;sample_L(exit_origin, &amp;light_direction,
-                              &amp;distance_to_light, &amp;light_pdf);
-  if (light_pdf &lt;= 0.0) continue;
-
-  double cos_light = dot(light_direction, exit_normal);
-  if (cos_light &lt;= 0.0) continue;
-
-  Ray shadow_ray(exit_origin, light_direction);
-  shadow_ray.max_t = distance_to_light - EPS_F;
-  if (!bvh-&gt;has_intersection(shadow_ray)) {
-    double light_fresnel = schlick_fresnel(cos_light, 1.0, eta);
-    exit_direct += light_radiance * (1.0 - light_fresnel) *
-                   cos_light / light_pdf;
-  }
-}
-
-L_out += throughput * base_tint * exit_direct / PI;</code></pre>
         <p>
             Spheres are handled in the obvious way. Triangle meshes, on the other hand, are handled by treating the mesh as a closed boundary. After the
             ray enters the surface it traces through the BVH to find the next
@@ -274,26 +209,7 @@ L_out += throughput * base_tint * exit_direct / PI;</code></pre>
             is thus defined wherever a ray can travel from one triangle
             of the mesh to another triangle of the same mesh, so this requires watertight meshes.
         </p>
-        <pre><code>// src/pathtracer/pathtracer.cpp
-bool same_subsurface_volume(const Primitive* volume_primitive,
-                            const Primitive* hit_primitive) {
-  if (volume_primitive == hit_primitive) return true;
-
-  const Triangle* volume_triangle =
-      dynamic_cast&lt;const Triangle*&gt;(volume_primitive);
-  const Triangle* hit_triangle = dynamic_cast&lt;const Triangle*&gt;(hit_primitive);
-  return volume_triangle &amp;&amp; hit_triangle &amp;&amp; volume_triangle-&gt;mesh &amp;&amp;
-         volume_triangle-&gt;mesh == hit_triangle-&gt;mesh;
-}
-
-Ray boundary_ray(position, direction);
-boundary_ray.min_t = EPS_F;
-if (!bvh-&gt;intersect(boundary_ray, &amp;boundary_isect)) return false;
-if (!same_subsurface_volume(volume_primitive, boundary_isect.primitive)) {
-  return false;
-}</code></pre>
         <p>
-            Tinting is added to allow us to more easily compare random walk SSS with our other methods of subsurface scattering.
             We compute a base tint
             <code>c_b=clamp(base_color * saturation)</code> that is multiplied with the exit contribution after the random walk.
             The <code>base_color</code> and <code>saturation</code> are parameters that can be set by the user.
@@ -386,10 +302,7 @@ if (!same_subsurface_volume(volume_primitive, boundary_isect.primitive)) {
         <h3>Random-Walk Layered Renders</h3>
         <p>
             The following random walk renders use the <code>lips2.dae</code> mesh with its
-            material changed to <code>random_walk_layered</code>. They are full frame renders with max ray depth 4 and
-            64 samples per pixel. The material tint is fixed while one parameter group is changed at a time. Higher
-            specular weight and lower roughness sharpen the gloss. Positive \(g\) biases scattering forward.
-            Higher scale decreases average mean free path, which increases the number of rays that continue reflecting until hitting the cap.
+            material changed to <code>random_walk_layered</code>.
         </p>
         <p class="small">
             Random-walk layered coefficient sets used below. Baseline: \(\sigma_a=(0.013,0.070,0.145)\),
